@@ -1,7 +1,6 @@
 import os
 import time
 
-
 class LogWatcher:
     def __init__(self, log_dir, callback):
         self.log_dir = log_dir

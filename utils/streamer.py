@@ -1,7 +1,4 @@
 import os
-import time
-from typing import AnyStr
-
 
 class LogStreamer:
     def __init__(self, log_path):

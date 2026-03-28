@@ -1,7 +1,4 @@
-from http.client import responses
-
 import requests
-import json
 from datetime import datetime
 
 class Notifier:
@@ -14,7 +11,19 @@ class Notifier:
         """Converts a roblox asset id to an image URL."""
         if not asset_id:
             return None
-        return f"https://www.roblox.com/asset-thumbnail/image?assetId={asset_id}&width=420&height=420&format=png"
+        res = requests.get(
+            "https://thumbnails.roblox.com/v1/assets",
+            params={
+                "assetIds": asset_id,
+                "size": "420x420",
+                "format": "Png",
+                "isCircular": "false"
+            }
+        )
+        data = res.json()
+        image_url = data["data"][0]["imageUrl"]
+
+        return image_url if image_url else None
 
     def send_log_event(self, title: str, color: int=0x00ff00, ps_included: bool=False, asset_id: int=None):
         """Sends a Discord Embed."""
@@ -33,7 +42,7 @@ class Notifier:
                 "footer": {"text": "Endie's Macro"}
         }
         if image_url:
-            embed["thumbnail"] = {"url": image_url} if image_url else None
+            embed["thumbnail"] = {"url": image_url}
 
         payload = {
             "embeds": [embed]
@@ -43,10 +52,6 @@ class Notifier:
             response = requests.post(self.webhook_url, json=payload)
             if response.status_code not in [200, 204]:
                 print(f"Webhook Failed ({response.status_code}): {response.text}")
-                if "components" in response.text.lower():
-                    print("Retrying without buttons...")
-                    del payload["components"]
-                    requests.post(self.webhook_url, json=payload)
         except Exception as e:
             print(f'Webhook Error: {e}')
             return False
