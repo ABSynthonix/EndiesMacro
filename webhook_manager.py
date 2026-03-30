@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime
+from utils.globals import MACRO_NAME
 
 class Notifier:
     def __init__(self, webhook_url, ps_url):
@@ -25,9 +26,9 @@ class Notifier:
 
         return image_url if image_url else None
 
-    def send_log_event(self, title: str, color: int=0x00ff00, ps_included: bool=False, asset_id: int=None):
+    def send_log_event(self, title: str, color: int=0x00ff00, ps_included: bool=False, asset_id: int=None, send: bool=False):
         """Sends a Discord Embed."""
-        if not self.webhook_url:
+        if not self.webhook_url or not send:
             return
 
         image_url = self.get_asset_url(asset_id)
@@ -39,7 +40,7 @@ class Notifier:
                         """,
                 "color": color,
                 "timestamp": datetime.utcnow().isoformat(),
-                "footer": {"text": "Endie's Macro"}
+                "footer": {"text": MACRO_NAME}
         }
         if image_url:
             embed["thumbnail"] = {"url": image_url}

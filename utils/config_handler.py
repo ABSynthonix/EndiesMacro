@@ -3,7 +3,7 @@ import os
 
 class ConfigManager:
     def __init__(self, filename="settings.json"):
-        self.config_dir = "config"
+        self.config_dir = os.path.join(os.getenv('APPDATA'), "EndiesMacro")
         self.filepath = os.path.join(self.config_dir, filename)
 
         self.ensure_config_dir()

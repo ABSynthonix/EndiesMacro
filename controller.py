@@ -5,8 +5,6 @@ import win32gui
 import win32con
 import win32com.client
 import utils.globals
-import webhook_manager
-
 
 class Controller:
     def __init__(self):

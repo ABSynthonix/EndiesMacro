@@ -1,10 +1,8 @@
 import re
 import json
 import time
-
 import psutil
 import utils.globals
-
 
 class Detector:
     def __init__(self):
@@ -17,13 +15,13 @@ class Detector:
 
         self.auto_rejoin_allowed = True
         self.disconnect_patterns = [
-            r"Lost connection to the game server",  # Standard 277
-            r"disconnectErrorCode",  # Generic error
-            r"Connection lost",  # Simple drop
-            r"ID_DISCONNECTION_NOTIFICATION",  # The engine-level event
-            r"Cleanup shared replicator",  # Logged when the connection is being torn down
-            r"Connection closed by remote host",  # Server-side kick/shutdown
-            r"RakNet: stop client",  # Low-level network stop
+            r"Lost connection to the game server",
+            r"disconnectErrorCode",
+            r"Connection lost",
+            r"ID_DISCONNECTION_NOTIFICATION",
+            r"Cleanup shared replicator",
+            r"Connection closed by remote host",
+            r"RakNet: stop client",
         ]
 
     def roblox_running(self):

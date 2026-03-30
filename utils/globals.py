@@ -1,5 +1,6 @@
 from utils.config_handler import ConfigManager
 
+MACRO_NAME = "Endye's Macro"
 config = ConfigManager()
 
 item_in_inventory_sequence = [
